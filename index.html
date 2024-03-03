@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>CoBot Dashboard</title>
+		<link rel="stylesheet" type="text/css" href="chessboardJS/css/chessboard-1.0.0.min.css">
+		<link rel="stylesheet" type="text/css" href="style/dashboardStyle.css">
+		
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src = "chessboardJS/js/chessboard-1.0.0.js"></script>
+	</head>
+
+	<body>
+		<h1>Welcome to the FIT Cobot Dashboard!</h1>
+		<div id="myBoard" style="width: 400px">
+			<script type="text/javascript">
+				var board1 = Chessboard('myBoard', 'start');
+			</script>
+		</div>
+		
+		<div id="cobotState">	
+			<h3>Current Cobot States</h3>
+			<p>Cobot 0: <span id="state0">[Cobot State here]</span></p>
+			<p>Cobot 1: <span id="state1">[Cobot State here]</span></p>
+		</div>
+		
+		<!-- Begin Control Panel Area -->
+		<div id="controlPanel">
+			<h2> <--- Cobot Control Panel ---> </h2>
+			<!-- Cobot Toggling -->
+			<input type="button" value="Toggle Cobot 1" onclick="alert('Toggling bot 1')">
+			<input type="button" value="Toggle Cobot 2" onclick="alert('Toggling bot 2')">
+			<br/><br/>
+			
+			<!-- Set Speed -->
+			<h3>Set Cobot Speed</h3>
+			<form name="setSpeed" method="GET">
+				<input type="text" name="speed" id="speed" placeholder="Enter Speed (Between 0 & 1)">
+				<input type="button" name="button" value="Update Speed" onclick="updateSpeed(this.form)">
+			</form>
+
+			<h3>Manipulate Clock</h3>
+			<p> -- Decide between "+(x sec) to [color] button" or input field for adding any number of time/setting time --</p>
+			<br/>
+			<input type="button" value="Start New Game" onclick="newGame()">
+		</div>
+		<!-- End Control Panel -->
+		<br/>
+		<!-- Begin Test area -->
+		<h2>--------- Testing Area: to be removed ---------</h2>
+		<h3>Test board position updating...</h3>
+		<h4>See sample FEN Strings Below:</h4>
+		<p>r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1</p>
+		<p>r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R</p>
+		<p>rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR</p>
+		
+		
+		<form name="stringForm" method="GET">
+			<input type="text" name="fenString" id="fenString" placeholder="Enter a FEN String...">
+			<input type="button" name="button" value="Update Board" onclick="updateBoard(this.form)">
+		</form>
+		
+		<div style="text-align: left;">
+			<h4>To-Do List:</h4>
+			<ul>
+				<li>Three.js - for pointcloud</li>
+				<li>Add necessary formatting/style	</li>
+			</ul>
+		</div>
+		
+		<!-- End Test Area -->
+
+
+		<script type="text/javascript">
+			const ws = new WebSocket("ws://localhost:8082");
+
+			ws.addEventListener("open", () => {
+				console.log("We are connected");
+
+				ws.send("Hello, here's a test message");
+			});
+			
+			ws.addEventListener("message", e => {
+				console.log(e.data);
+			});
+
+			function updateSpeed(form){
+				let speed = form.speed.value;
+				if (speed > 1 || speed < 0 || isNaN(speed)){
+					alert('Invalid Speed entered, must be a number between 0 and 1');
+				}
+				else{
+					msg = "Setting speed to " + speed;
+					ws.send(msg);
+					alert(msg);
+				}
+			}
+			
+			function newGame(){
+				let text;
+				let baseTime = prompt("Please enter Base Time (in ms):");
+				text = "Starting new game...\nBase time: " + baseTime;
+
+				let incTime = prompt("Please enter increment time (in ms):");
+				text += "\nIncrement time: " + incTime;
+				
+				alert(text);
+			}
+
+			function updateBoard(form){
+				let fenString = form.fenString.value;
+				Chessboard('myBoard', fenString);
+			}
+		</script>
+	</body>
+</html>
