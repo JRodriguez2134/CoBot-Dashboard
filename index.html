@@ -35,7 +35,7 @@
 			<h3>Set Cobot Speed</h3>
 			<form name="setSpeed" method="GET">
 				<input type="text" name="speed" id="speed" placeholder="Enter Speed (Between 0 & 1)">
-				<input type="button" name="button" value="Update Speed" onclick="updateSpeed(this.form)">
+				<input type="button" name="button" id ="speedButton" value="Update Speed" onclick="updateSpeed(this.form)">
 			</form>
 
 			<h3>Manipulate Clock</h3>
@@ -93,6 +93,7 @@
 					ws.send(msg);
 					alert(msg);
 				}
+				form.speed.value = "";
 			}
 			
 			function newGame(){
