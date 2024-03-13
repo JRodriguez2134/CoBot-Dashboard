@@ -24,8 +24,8 @@ input[type=button] {
   width: 15%;
   background-color: #4CAF50;
   color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
+  padding: 12px 20px;
+  margin: 2px;
   border: none;
   border-radius: 4px;
   cursor: pointer;

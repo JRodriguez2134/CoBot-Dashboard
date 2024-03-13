@@ -18,24 +18,32 @@
 		</div>
 		
 		<div id="cobotState">	
-			<h3>Current Cobot States</h3>
-			<p>Cobot 0: <span id="state0">[Cobot State here]</span></p>
-			<p>Cobot 1: <span id="state1">[Cobot State here]</span></p>
+			<h3>Cobot States</h3>
+			<span>Cobot 1: <span id="state1">[Cobot State here]</span></span>
+			&emsp;
+			<span>Cobot 2: <span id="state2">[Cobot State here]</span></span>
 		</div>
 		
 		<!-- Begin Control Panel Area -->
 		<div id="controlPanel">
-			<h2> <--- Cobot Control Panel ---> </h2>
+			<h2> --- Cobot Control Panel --- </h2>
 			<!-- Cobot Toggling -->
-			<input type="button" value="Toggle Cobot 1" onclick="alert('Toggling bot 1')">
-			<input type="button" value="Toggle Cobot 2" onclick="alert('Toggling bot 2')">
-			<br/><br/>
+			<input type="button" value="Toggle Cobot 1" onclick="toggleBot(1)">
+			<input type="button" value="Toggle Cobot 2" onclick="toggleBot(2)">
+			<br/>
 			
 			<!-- Set Speed -->
-			<h3>Set Cobot Speed</h3>
+			<h3>Set Arm Speed</h3>
 			<form name="setSpeed" method="GET">
-				<input type="text" name="speed" id="speed" placeholder="Enter Speed (Between 0 & 1)">
-				<input type="button" name="button" id ="speedButton" value="Update Speed" onclick="updateSpeed(this.form)">
+				<input type="radio" id="cobot1" name="botSelect" value="1">
+  				<label for="cobot1">Cobot 1</label>
+				&emsp;
+				<input type="radio" id="cobot2" name="botSelect" value="2">
+  				<label for="cobot2">Cobot 2</label><br>
+				
+				<input type="text" name="speed" placeholder="Enter Speed (Between 0 & 1)">
+				<br/>
+				<input type="button" name="button" id ="speedButton" value="Set Speed" onclick="updateSpeed(this.form)">
 			</form>
 
 			<h3>Manipulate Clock</h3>
@@ -45,6 +53,7 @@
 		</div>
 		<!-- End Control Panel -->
 		<br/>
+		
 		<!-- Begin Test area -->
 		<h2>--------- Testing Area: to be removed ---------</h2>
 		<h3>Test board position updating...</h3>
@@ -62,8 +71,8 @@
 		<div style="text-align: left;">
 			<h4>To-Do List:</h4>
 			<ul>
-				<li>Three.js - for pointcloud</li>
-				<li>Add necessary formatting/style	</li>
+				<li>Implement Json function</li>
+				<li>Add necessary formatting/style</li>
 			</ul>
 		</div>
 		
@@ -83,15 +92,32 @@
 				console.log(e.data);
 			});
 
+			function toggleBot(id){
+				if (id == 1){
+					alert("Toggling Bot 1");
+				}
+				else if (id == 2){
+					alert("Toggling Bot 2");
+				}
+			}
+
 			function updateSpeed(form){
-				let speed = form.speed.value;
-				if (speed > 1 || speed < 0 || isNaN(speed)){
-					alert('Invalid Speed entered, must be a number between 0 and 1');
+				let botSpeed = form.speed.value;
+				let botSelect = form.botSelect.value;
+				if (botSpeed > 1 || botSpeed < 0 || isNaN(botSpeed) || botSpeed == ""){
+					//Ensure valid speed input
+					alert('Invalid value for speed entered.\nValue must be a number between 0 and 1');
+				}
+				else if (botSelect != "1" && botSelect != "2"){
+					//Check for cobot selection
+					alert("No cobot selected.\nPlease try again.")
 				}
 				else{
-					msg = "Setting speed to " + speed;
-					ws.send(msg);
-					alert(msg);
+					const set_max_speed = {cobot_id: botSelect, speed: botSpeed};
+					const myJson = JSON.stringify(set_max_speed);
+					alert(myJson);
+					//ws.send(msg);
+					
 				}
 				form.speed.value = "";
 			}
