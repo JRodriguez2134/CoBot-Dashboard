@@ -10,30 +10,36 @@
 	</head>
 
 	<body>
-		<h1>Welcome to the FIT Cobot Dashboard!</h1>
+		<h1>Welcome to the Florida Tech Cobot Dashboard!</h1>
+		<h2>Current Game Information</h2>
 		<div id="myBoard" style="width: 400px">
 			<script type="text/javascript">
 				var board1 = Chessboard('myBoard', 'start');
 			</script>
 		</div>
 		
-		<div id="cobotState">	
-			<h3>Cobot States</h3>
-			<span>Cobot 1: <span id="state1">[Cobot State here]</span></span>
+		<div id="cobotState">
+			<br/>
+			<span>Cobot 1 State: <span id="state1">[Cobot State here]</span></span>
 			&emsp;
-			<span>Cobot 2: <span id="state2">[Cobot State here]</span></span>
+			<span>Cobot 2 State: <span id="state2">[Cobot State here]</span></span>
+			<br/><br/>
+			<span>Black's Time Remaining: <span id="state1">[Time Here]</span></span>
+			&emsp;
+			<span>White's Time Remaining: <span id="state2">[Time Here]</span></span>
 		</div>
 		
 		<!-- Begin Control Panel Area -->
 		<div id="controlPanel">
 			<h2> --- Cobot Control Panel --- </h2>
 			<!-- Cobot Toggling -->
+			<h3>Cobot Arm Toggling</h3>
 			<input type="button" value="Toggle Cobot 1" onclick="toggleBot(1)">
 			<input type="button" value="Toggle Cobot 2" onclick="toggleBot(2)">
 			<br/>
 			
 			<!-- Set Speed -->
-			<h3>Set Arm Speed</h3>
+			<h3 style="border-top: 1px dotted; padding-top: 4px;">Set Arm Speed</h3>
 			<form name="setSpeed" method="GET">
 				<input type="radio" id="cobot1" name="botSelect" value="1">
   				<label for="cobot1">Cobot 1</label>
@@ -46,9 +52,10 @@
 				<input type="button" name="button" id ="speedButton" value="Set Speed" onclick="updateSpeed(this.form)">
 			</form>
 
-			<h3>Manipulate Clock</h3>
-			<p> -- Decide between "+(x sec) to [color] button" or input field for adding any number of time/setting time --</p>
-			<br/>
+			<h3 style="border-top: 1px dotted; padding-top: 4px;">Manipulate Clock</h3>
+			<input type="button" value="+15 Seconds to White" onclick="alert('Adding 15 Seconds to Black')">
+			<input type="button" value="+15 Seconds to Black" onclick="alert('Adding 15 Seconds to White')">
+			<br/><br/>
 			<input type="button" value="Start New Game" onclick="newGame()">
 		</div>
 		<!-- End Control Panel -->
@@ -67,14 +74,6 @@
 			<input type="text" name="fenString" id="fenString" placeholder="Enter a FEN String...">
 			<input type="button" name="button" value="Update Board" onclick="updateBoard(this.form)">
 		</form>
-		
-		<div style="text-align: left;">
-			<h4>To-Do List:</h4>
-			<ul>
-				<li>Implement Json function</li>
-				<li>Add necessary formatting/style</li>
-			</ul>
-		</div>
 		
 		<!-- End Test Area -->
 
