@@ -15,6 +15,7 @@
   <li>This folder contains the files necessary to run the small test server through VS Code.</li>
   <li>To begin the test server within VS Code, open a terminal within the folder and type "node index.js".</li>
   <li>Once started, the terminal window of the server will display a messgage whenever a client connects.</li>
+  <img src="/sampleImgs/sampleTerminal.png">
   <li>To end the server, simply input "cntrl + z" in the terminal.</li>
   <li>If other dashboard functionality needs to be tested with the server, only the "index.js" should require alteration.</li>
 </ul>
@@ -47,6 +48,7 @@
   <li>This section begins by creating an object "ws", a new WebSocket connection at the host computer, allowing communication with the test server. (This will have to be updated when connecting to the backend)</li>
   <li>Event listeners are then used with this "ws" object to detect a successful WebSocket connection and to detect incoming messages.</li>
   <li>The event listener block for "open" is entered when the WebSocket connection is successful, so the "connection status" part of the dashboard is updated with green "connected" text. </li>
+  <img src="/sampleImgs/statusMsg.png">
   <li>A small test message is also sent to the server using the "ws.send" method, but this action is a bit redundant with the "connection status" part of the dashboard.</li>
   <li>The event listener block of "message" detects whenever a message, called "e" is received. Since messages are exchanged in string format, the received message is first converted to a JSON format with the JSON.parse method.</li>
   <li>If statements are then used to enter into various functions depending on what the message is related to. The exact names that the if statements check for may need to be changed based on the format of backend messages.</li>
